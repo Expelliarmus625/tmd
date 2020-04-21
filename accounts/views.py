@@ -73,13 +73,8 @@ def upload(request):
             data = ImageCollector.objects.filter(username = request.user.username).order_by('-created_at')[:1]
 
             #Some Machine Learning Shit
-            model = settings.MODEL
             image_path = settings.MEDIA_ROOT +'/'+ data.values('patient_img')[0]['patient_img']
-            pred_img = image.load_img(image_path, target_size = (224, 224))
-            pred_img = image.img_to_array(pred_img)
-            pred_img = np.expand_dims(pred_img, axis = 0)
-            with settings.GRAPH.as_default():
-                result = model.predict(pred_img, batch_size = 1)
+            result = get_result(image_path)
 
             print('There is a '+str(round(result[0][0],2))+'% chance of malignancy')
 
@@ -94,3 +89,11 @@ def upload(request):
     #     'form' : form
     # })
 
+def get_result(image_path):
+    model = settings.MODEL
+    pred_img = image.load_img(image_path, target_size = (224, 224))
+    pred_img = image.img_to_array(pred_img)
+    pred_img = np.expand_dims(pred_img, axis = 0)
+    with settings.GRAPH.as_default():
+        result = model.predict(pred_img, batch_size = 1)
+    return result
