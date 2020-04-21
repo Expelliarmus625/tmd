@@ -11,8 +11,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-# from keras.models import load_model
-# import tensorflow as tf
+from keras.models import load_model
+import tensorflow as tf
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -137,10 +138,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 
 
 # load the classifier
-# MODEL_PATH = os.path.join(BASE_DIR, 'test')
-# global model
-# model = load_model('test/thyroid_model_216.h5')
-# MODEL = model
-# global graph
-# graph = tf.get_default_graph()
-# GRAPH = graph
+MODEL_PATH = os.path.join(BASE_DIR, 'test')
+global model
+model = load_model('test/thyroid_model_216.h5')
+MODEL = model
+global graph
+graph = tf.get_default_graph()
+GRAPH = graph

@@ -6,8 +6,8 @@ from main_app.forms import ImageForm
 from .models import ImageCollector
 from django.conf import settings    
 
-# import numpy as np
-# from keras.preprocessing import image
+import numpy as np
+from keras.preprocessing import image
 
 def register(request):
     # print("in register")
@@ -73,8 +73,8 @@ def upload(request):
             data = ImageCollector.objects.filter(username = request.user.username).order_by('-created_at')[:1]
             #Some Machine Learning Shit
             image_path = settings.MEDIA_ROOT +'/'+ data.values('patient_img')[0]['patient_img']
-            # result = get_result(image_path)
-            result = [[0.234224, 0.2424534]]
+            result = get_result(image_path)
+            # result = [[0.234224, 0.2424534]]
             print('There is a '+str(round(result[0][0],2))+'% chance of malignancy')
 
             return render(request, 'results.html', {'data' : data, 'result' : str(round((result[0][0]  * 100),2))})       
